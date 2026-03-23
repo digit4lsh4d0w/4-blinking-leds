@@ -1,0 +1,6 @@
+# Building artifacts
+bin
+.cache
+
+# clang & clangd
+compile_commands.json

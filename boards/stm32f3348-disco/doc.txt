@@ -1,0 +1,6 @@
+/**
+@defgroup    boards_stm32f3348-disco STM32F3Discovery
+@ingroup     boards
+@brief       Support for the stm32f3348-disco board
+
+## Overview

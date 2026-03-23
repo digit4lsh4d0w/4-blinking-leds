@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/refs/heads/main/schemas/devContainer.base.schema.json",
+  "name": "RIOT OS DEV / STM32",
+  "dockerComposeFile": "compose.yaml",
+  "service": "riot-dev",
+  "workspaceFolder": "/workspace",
+  "remoteEnv": {
+    "BOARD": "stm32f3348-disco"
+  }
+}

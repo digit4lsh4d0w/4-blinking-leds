@@ -1,0 +1,15 @@
+services:
+  riot-dev:
+    image: riot-dev:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ..
+        target: /workspace
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+      # - /dev/ttyACM0:/dev/ttyACM0
+    stdin_open: true
+    tty: true
