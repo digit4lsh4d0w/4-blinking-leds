@@ -1,0 +1,34 @@
+[
+  {
+    "label": "Build",
+    "command": "make",
+    "cwd": "$ZED_WORKTREE_ROOT/apps/blinky",
+    "reveal": "no_focus",
+    "show_command": false,
+    "show_summary": false
+  },
+  {
+    "label": "Flash",
+    "command": "make flash",
+    "cwd": "$ZED_WORKTREE_ROOT/apps/blinky",
+    "reveal": "no_focus",
+    "show_command": false,
+    "show_summary": false
+  },
+  {
+    "label": "Clean",
+    "command": "make clean",
+    "cwd": "$ZED_WORKTREE_ROOT/apps/blinky",
+    "reveal": "no_focus",
+    "show_command": false,
+    "show_summary": false
+  },
+  {
+    "label": "Connect",
+    "command": "make term",
+    "cwd": "$ZED_WORKTREE_ROOT/apps/blinky",
+    "reveal": "no_focus",
+    "show_command": false,
+    "show_summary": false
+  }
+]
