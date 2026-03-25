@@ -1,38 +1,5 @@
-#include "board.h"
-#include "periph/cpu_gpio.h"
-#include "periph/gpio.h"
-#include "periph/pwm.h"
-#include "ztimer.h"
-#include <stdint.h>
+#include "pwm_engine.h"
 #include <stdio.h>
-
-// Время ожидания между сменой состояний светодиода
-// const uint32_t SLEEP_TIME_MS = 400;
-const uint32_t STEP_DELAY_MS = 5;
-const int16_t PWM_RESOLUTION = 1000;
-const int16_t PWM_FREQ = 1000;
-const int16_t INITIAL_STEP = 20;
-const int16_t INITIAL_DUTY = 20;
-
-typedef enum : uint8_t {
-  LED_RED = 0,
-  LED_GREEN,
-  LED_BLUE,
-  LED_ORANGE,
-  LED_PINS_COUNT
-} led_color_t;
-
-// static const gpio_t LED_PINS[] = {
-//     [LED_RED] = LED3_PIN,
-//     [LED_GREEN] = LED5_PIN,
-//     [LED_BLUE] = LED6_PIN,
-//     [LED_ORANGE] = LED4_PIN,
-// };
-
-typedef struct {
-  pwm_t dev;
-  uint8_t chan;
-} pwm_led_t;
 
 // static const pwm_led_t PWM_LEDS[] = {
 //     [LED3_PIN] = { .dev = PWM_DEV(1), .chan = 1 },
@@ -40,11 +7,6 @@ typedef struct {
 //     [LED5_PIN] = { .dev = PWM_DEV(2), .chan = 0 },
 //     [LED6_PIN] = { .dev = PWM_DEV(2), .chan = 1 },
 // };
-
-// typedef struct {
-//     _Atomic active_led_t current_state;
-//     _Atomic active_breath_led_t current_breath_state;
-// } app_ctx_t;
 
 // Переключает состояние светодиода
 // void blink(active_led_t state)
@@ -74,6 +36,8 @@ typedef struct {
 int main(void) {
   printf("Starting!\n");
 
+  pwm_engine_init();
+
   // pwm_init(PWM_DEV(1), PWM_LEFT, PWM_FREQ, PWM_RESOLUTION);
   // pwm_init(PWM_DEV(2), PWM_LEFT, PWM_FREQ, PWM_RESOLUTION);
 
@@ -82,17 +46,9 @@ int main(void) {
   // pwm_set(PWM_DEV(2), 0, 0);
   // pwm_set(PWM_DEV(2), 1, 0);
 
-  // // Создание контекста приложения
-  // app_ctx_t ctx = {
-  //     .current_breath_state = ACTIVE_BREATH_LED_3,
-  // };
-
   // // Привязка прерывания при нажатии кнопки
   // // на вызов функции `switch_blink` с аргументом `&state`
   // gpio_init_int(BTN0_PIN, GPIO_IN, GPIO_FALLING, switch_blink, &ctx);
-
-  // int16_t step = INITIAL_STEP;
-  // int16_t current_duty = INITIAL_DUTY;
 
   // // Цикл мерцания светодиода
   // while (1) {

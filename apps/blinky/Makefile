@@ -1,20 +1,20 @@
-# Name of your application
 APPLICATION = blinky
-
-# If no BOARD is found in the environment, use this default:
 BOARD ?= stm32f3348-disco
-
-# Used modules
-USEMODULE += periph_gpio
-USEMODULE += periph_gpio_irq
-USEMODULE += periph_pwm
-USEMODULE += ztimer
-USEMODULE += ztimer_msec
 
 PROJECT_BASE ?= $(CURDIR)/../..
 RIOTBASE ?= $(PROJECT_BASE)/RIOT
 
 EXTERNAL_BOARD_DIRS += $(PROJECT_BASE)/boards
+EXTERNAL_MODULE_DIRS += $(CURDIR)/src/
+INCLUDES += -I$(CURDIR)/include
+
+USEMODULE += pwm_engine
+USEMODULE += ztimer
+USEMODULE += ztimer_msec
+USEMODULE += ztimer_usec
+USEMODULE += periph_gpio
+USEMODULE += periph_gpio_irq
+USEMODULE += periph_pwm
 
 CFLAGS += -std=c23
 
