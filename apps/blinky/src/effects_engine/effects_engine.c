@@ -7,6 +7,7 @@
 #include "ztimer.h"
 #include <stdint.h>
 
+static char logic_thread_stack[THREAD_STACKSIZE_MAIN];
 static constexpr uint32_t LOGIC_PERIOD_MS = 20;
 // Работа начинается в режиме №1.
 static effect_mode_t current_mode = MODE_1;
@@ -31,20 +32,6 @@ static const effect_strategy_t EFFECTS[MODES_COUNT] = {
         },
 };
 
-void logic_engine_on_short_press() {
-  if (EFFECTS[current_mode].on_short_press != nullptr) {
-    EFFECTS[current_mode].on_short_press();
-  }
-}
-
-void logic_engine_on_long_press() {
-  current_mode = (current_mode + 1) % MODES_COUNT;
-
-  for (int i = 0; i < COLORS_COUNT; i++) {
-    pwm_set_brightness(i, PWM_MIN_BRIGHTNESS);
-  }
-}
-
 static void *logic_thread([[maybe_unused]] void *arg) {
   uint32_t last_wakeup = ztimer_now(ZTIMER_MSEC);
 
@@ -61,12 +48,25 @@ static void *logic_thread([[maybe_unused]] void *arg) {
   return nullptr;
 }
 
+void logic_engine_on_short_press() {
+  if (EFFECTS[current_mode].on_short_press != nullptr) {
+    EFFECTS[current_mode].on_short_press();
+  }
+}
+
+void logic_engine_on_long_press() {
+  for (int i = 0; i < COLORS_COUNT; i++) {
+    pwm_set_brightness(i, PWM_MIN_BRIGHTNESS);
+  }
+
+  current_mode = (current_mode + 1) % MODES_COUNT;
+}
+
 void logic_engine_next_mode() {
   current_mode = (current_mode + 1) % MODES_COUNT;
 }
 
 void logic_engine_init() {
-  static char logic_thread_stack[THREAD_STACKSIZE_MAIN];
   thread_create(logic_thread_stack, sizeof(logic_thread_stack),
                 THREAD_PRIORITY_MAIN - 1, 0, logic_thread, nullptr, "logic");
 }

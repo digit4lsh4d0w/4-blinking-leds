@@ -9,6 +9,8 @@ typedef enum : uint8_t {
   MODES_COUNT,
 } effect_mode_t;
 
+void logic_engine_on_short_press();
+void logic_engine_on_long_press();
 // Рабочий цикл управления режимами свечения.
 void logic_engine_init();
 // Функция переключения режима свечения.

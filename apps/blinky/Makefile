@@ -10,6 +10,7 @@ INCLUDES += -I$(CURDIR)/include
 
 USEMODULE += pwm_engine
 USEMODULE += effects_engine
+USEMODULE += button_handler
 USEMODULE += ztimer
 USEMODULE += ztimer_msec
 USEMODULE += ztimer_usec
