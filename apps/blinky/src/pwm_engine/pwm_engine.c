@@ -10,6 +10,7 @@
 #include <stdatomic.h>
 #include <stdint.h>
 
+static char pwm_thread_stack[THREAD_STACKSIZE_DEFAULT];
 // Разрешение 100 означает, что скважность может быть одним из 100 значений.
 // Удобно для счета в процентах, от 0% до 100%.
 static constexpr uint8_t PWM_RESOLUTION = 100;
@@ -74,7 +75,6 @@ void pwm_engine_init() {
     gpio_init(led_pins[i], GPIO_OUT);
   }
 
-  static char pwm_thread_stack[THREAD_STACKSIZE_DEFAULT];
   thread_create(pwm_thread_stack, sizeof(pwm_thread_stack),
                 THREAD_PRIORITY_MAIN - 2, 0, pwm_thread, nullptr, "pwm");
 }

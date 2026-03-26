@@ -9,7 +9,7 @@
 #include <stdint.h>
 
 static constexpr uint32_t DEBOUNCE_MS = 50;
-static constexpr uint32_t LONG_PRESS_MS = 1000;
+static constexpr uint32_t LONG_PRESS_MS = 500;
 
 static constexpr uint16_t MSG_BTN_PRESSED = 1;
 static constexpr uint16_t MSG_BTN_RELEASED = 2;
