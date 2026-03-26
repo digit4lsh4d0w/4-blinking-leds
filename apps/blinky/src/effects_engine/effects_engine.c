@@ -1,4 +1,5 @@
-#include "logic_engine.h"
+#include "effects_engine.h"
+#include "effects_internal.h"
 #include "led.h"
 #include "pwm_engine.h"
 #include "thread.h"
@@ -8,42 +9,44 @@
 
 static constexpr uint32_t LOGIC_PERIOD_MS = 20;
 // Работа начинается в режиме №1.
-static blinking_mode_t current_mode = MODE_1;
-// Флаг короткого нажатия.
-static _Atomic bool btn_short_pressed = false;
+static effect_mode_t current_mode = MODE_1;
 
+// Контракт
 typedef struct {
-  void (*on_enter)();
-  void (*update)(uint32_t time_ms, bool btn_pressed);
+  void (*update)(uint32_t time_ms);
+  void (*on_short_press)();
 } effect_strategy_t;
 
-static void effect_mode_1_enter() {}
-
-static void effect_mode_1_update(uint32_t time_ms, bool btn_pressed) {}
-
-static void effect_mode_2_enter() {}
-
-static void effect_mode_2_update(uint32_t time_ms, bool btn_pressed) {}
-
+// v-table
 static const effect_strategy_t EFFECTS[MODES_COUNT] = {
     [MODE_1] =
         {
-            .on_enter = effect_mode_1_enter,
             .update = effect_mode_1_update,
+            .on_short_press = effect_mode_1_short_press,
         },
     [MODE_2] =
         {
-            .on_enter = effect_mode_2_enter,
             .update = effect_mode_2_update,
+            .on_short_press = effect_mode_2_short_press,
         },
 };
 
+void logic_engine_on_short_press() {
+  if (EFFECTS[current_mode].on_short_press != nullptr) {
+    EFFECTS[current_mode].on_short_press();
+  }
+}
+
+void logic_engine_on_long_press() {
+  current_mode = (current_mode + 1) % MODES_COUNT;
+
+  for (int i = 0; i < COLORS_COUNT; i++) {
+    pwm_set_brightness(i, PWM_MIN_BRIGHTNESS);
+  }
+}
+
 static void *logic_thread([[maybe_unused]] void *arg) {
   uint32_t last_wakeup = ztimer_now(ZTIMER_MSEC);
-
-  if (EFFECTS[current_mode].on_enter != nullptr) {
-    EFFECTS[current_mode].on_enter();
-  }
 
   while (true) {
     uint32_t current_time = ztimer_now(ZTIMER_MSEC);
@@ -54,6 +57,8 @@ static void *logic_thread([[maybe_unused]] void *arg) {
 
     ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, LOGIC_PERIOD_MS);
   }
+
+  return nullptr;
 }
 
 void logic_engine_next_mode() {

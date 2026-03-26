@@ -7,7 +7,7 @@ typedef enum : uint8_t {
   MODE_1,
   MODE_2,
   MODES_COUNT,
-} blinking_mode_t;
+} effect_mode_t;
 
 // Рабочий цикл управления режимами свечения.
 void logic_engine_init();

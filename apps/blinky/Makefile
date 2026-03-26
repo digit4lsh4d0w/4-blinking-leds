@@ -9,6 +9,7 @@ EXTERNAL_MODULE_DIRS += $(CURDIR)/src/
 INCLUDES += -I$(CURDIR)/include
 
 USEMODULE += pwm_engine
+USEMODULE += effects_engine
 USEMODULE += ztimer
 USEMODULE += ztimer_msec
 USEMODULE += ztimer_usec
