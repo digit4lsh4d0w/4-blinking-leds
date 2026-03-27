@@ -8,7 +8,7 @@ int main(void) {
   printf("Starting!\n");
 
   pwm_engine_init();
-  logic_engine_init();
+  effects_engine_init();
   button_handler_init(BTN0_PIN);
 
   return 0;

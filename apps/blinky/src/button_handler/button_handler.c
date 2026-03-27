@@ -53,9 +53,9 @@ static void *button_thread([[maybe_unused]] void *arg) {
         is_pressed = false;
         press_time = event_time;
         if (duration >= LONG_PRESS_MS) {
-          logic_engine_on_long_press();
+          effects_engine_on_long_press();
         } else {
-          logic_engine_on_short_press();
+          effects_engine_on_short_press();
         }
       }
     }

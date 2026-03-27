@@ -4,14 +4,14 @@
 
 // Режимы мигания светодиодами.
 typedef enum : uint8_t {
-  MODE_1,
-  MODE_2,
-  MODES_COUNT,
+  EFFECT_MODE_1,
+  EFFECT_MODE_2,
+  EFFECT_MODES_COUNT,
 } effect_mode_t;
 
-void logic_engine_on_short_press();
-void logic_engine_on_long_press();
 // Рабочий цикл управления режимами свечения.
-void logic_engine_init();
-// Функция переключения режима свечения.
-void logic_engine_next_mode();
+void effects_engine_init();
+// Обработчик короткого нажатия на кнопку.
+void effects_engine_on_short_press();
+// Обработчик длинного нажатия на кнопку.
+void effects_engine_on_long_press();
