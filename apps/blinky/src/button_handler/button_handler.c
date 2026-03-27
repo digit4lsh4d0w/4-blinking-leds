@@ -8,15 +8,19 @@
 #include "ztimer.h"
 #include <stdint.h>
 
+// Время для предотвращений дребезга контактов кнопки.
 static constexpr uint32_t DEBOUNCE_MS = 50;
 static constexpr uint32_t LONG_PRESS_MS = 500;
 
-static constexpr uint16_t MSG_BTN_PRESSED = 1;
-static constexpr uint16_t MSG_BTN_RELEASED = 2;
+enum : uint16_t {
+  MSG_BTN_PRESSED = 1,
+  MSG_BTN_RELEASED = 2,
+};
 
 static char btn_thread_stack[THREAD_STACKSIZE_MAIN];
 static kernel_pid_t btn_thread_pid;
 
+// Обработчик прерываний, который вызывается при нажатии и отпускании кнопки.
 static void btn_isr(void *arg) {
   gpio_t pin = (gpio_t)arg;
 
@@ -52,6 +56,7 @@ static void *button_thread([[maybe_unused]] void *arg) {
       } else if (msg.type == MSG_BTN_RELEASED && is_pressed) {
         is_pressed = false;
         press_time = event_time;
+
         if (duration >= LONG_PRESS_MS) {
           effects_engine_on_long_press();
         } else {
