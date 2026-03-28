@@ -17,11 +17,11 @@ static _Atomic uint8_t mode_shift = 0;
 
 void effect_mode_1_short_press() {
   uint8_t shift = atomic_load(&mode_shift);
-  atomic_store(&mode_shift, (shift + 1) % COLORS_COUNT);
+  atomic_store(&mode_shift, (shift + 1) % LED_COLOR_COUNT);
 }
 
 void effect_mode_1_update(uint32_t time_ms) {
-  uint8_t func_brightness[COLORS_COUNT];
+  uint8_t func_brightness[LED_COLOR_COUNT];
 
   func_brightness[0] = (time_ms % LED1_PERIOD_MS < LED1_HALF_PERIOD_MS)
                            ? PWM_MAX_BRIGHTNESS
@@ -48,8 +48,8 @@ void effect_mode_1_update(uint32_t time_ms) {
   }
 
   uint8_t shift = atomic_load(&mode_shift);
-  for (uint8_t i = 0; i < COLORS_COUNT; i++) {
-    int physical_led = (i + shift) % COLORS_COUNT;
+  for (uint8_t i = 0; i < LED_COLOR_COUNT; i++) {
+    int physical_led = (i + shift) % LED_COLOR_COUNT;
     pwm_set_brightness(physical_led, func_brightness[i]);
   }
 }

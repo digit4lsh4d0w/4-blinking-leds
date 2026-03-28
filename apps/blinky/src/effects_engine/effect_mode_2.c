@@ -32,13 +32,13 @@ void effect_mode_2_update(uint32_t time_ms) {
 
   if (current_step_duration >= speeds_ms[speed] || last_step_time == 0) {
     if (last_step_time != 0) {
-      active_led = (active_led + 1) % COLORS_COUNT;
+      active_led = (active_led + 1) % LED_COLOR_COUNT;
     }
 
     last_step_time = time_ms;
   }
 
-  for (uint8_t i = 0; i < COLORS_COUNT; i++) {
+  for (uint8_t i = 0; i < LED_COLOR_COUNT; i++) {
     pwm_set_brightness(i, (i == active_led) ? PWM_MAX_BRIGHTNESS
                                             : PWM_MIN_BRIGHTNESS);
   }

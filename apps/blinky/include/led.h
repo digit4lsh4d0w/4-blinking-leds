@@ -4,9 +4,9 @@
 
 // Перечисление для цветов светодиодов.
 typedef enum : uint8_t {
-  RED = 0,
-  GREEN,
-  BLUE,
-  ORANGE,
-  COLORS_COUNT,
+  LED_COLOR_RED = 0,
+  LED_COLOR_GREEN,
+  LED_COLOR_BLUE,
+  LED_COLOR_ORANGE,
+  LED_COLOR_COUNT,
 } led_color_t;

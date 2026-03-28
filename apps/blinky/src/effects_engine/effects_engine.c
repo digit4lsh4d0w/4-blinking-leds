@@ -64,7 +64,7 @@ void effects_engine_on_short_press() {
 }
 
 void effects_engine_on_long_press() {
-  for (uint8_t i = 0; i < COLORS_COUNT; i++) {
+  for (uint8_t i = 0; i < LED_COLOR_COUNT; i++) {
     pwm_set_brightness(i, PWM_MIN_BRIGHTNESS);
   }
 
